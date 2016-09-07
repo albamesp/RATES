@@ -19,7 +19,7 @@
   <body>
     <header>
       <div class="inner">
-        <h1>RATESates</h1>
+        <h1>RATES</h1>
         <h2>Antarctic Ice Sheet Mass Balance Product from the RATES project</h2>
         <a href="https://github.com/albamesp/RATES" class="button"><small>View project on</small> GitHub</a>
       </div>
@@ -36,51 +36,6 @@
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
 
-vg width="960" height="600"></svg>
-<script src="//d3js.org/d3.v4.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
-<script>
-
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-
-var rateById = d3.map();
-
-var quantize = d3.scaleQuantize()
-    .domain([0, 0.15])
-    .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
-
-var projection = d3.geoAlbersUsa()
-    .scale(1280)
-    .translate([width / 2, height / 2]);
-
-var path = d3.geoPath()
-    .projection(projection);
-
-d3.queue()
-    .defer(d3.json, "/mbostock/raw/4090846/us.json")
-    .defer(d3.tsv, "unemployment.tsv", function(d) { rateById.set(d.id, +d.rate); })
-    .await(ready);
-
-function ready(error, us) {
-  if (error) throw error;
-
-  svg.append("g")
-      .attr("class", "counties")
-    .selectAll("path")
-      .data(topojson.feature(us, us.objects.counties).features)
-    .enter().append("path")
-      .attr("class", function(d) { return quantize(rateById.get(d.id)); })
-      .attr("d", path);
-
-  svg.append("path")
-      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-      .attr("class", "states")
-      .attr("d", path);
-}
-
-</script>
 <h3>
 <a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
 
